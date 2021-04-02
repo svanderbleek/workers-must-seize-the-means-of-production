@@ -26,6 +26,19 @@ feature 'Cooking cookies' do
     end
   end
 
+  scenario 'Cooking a cookie with no fillings' do
+    user = create_and_signin
+    oven = user.ovens.first
+
+    oven = FactoryGirl.create(:oven, user: user)
+    visit oven_path(oven)
+
+    click_link_or_button 'Prepare Cookie'
+    click_button 'Mix and bake'
+
+    expect(page).to have_content 'no fillings'
+  end
+
   scenario 'Trying to bake a cookie while oven is full' do
     user = create_and_signin
     oven = user.ovens.first
@@ -63,4 +76,5 @@ feature 'Cooking cookies' do
       expect(page).to have_content '3 Cookies'
     end
   end
+
 end
