@@ -30,12 +30,9 @@ feature 'Cooking cookies' do
     user = create_and_signin
     oven = user.ovens.first
 
-    oven = FactoryGirl.create(:oven, user: user)
     visit oven_path(oven)
-
     click_link_or_button 'Prepare Cookie'
     click_button 'Mix and bake'
-
     expect(page).to have_content 'no fillings'
 
     click_button 'Retrieve Cookie'
@@ -80,5 +77,4 @@ feature 'Cooking cookies' do
       expect(page).to have_content '3 Cookies'
     end
   end
-
 end
