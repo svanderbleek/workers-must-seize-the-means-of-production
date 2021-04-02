@@ -86,3 +86,5 @@ pickle-email-*.html
 /yarn-error.log
 
 .byebug_history
+
+.tool-versions
