@@ -37,6 +37,10 @@ feature 'Cooking cookies' do
     click_button 'Mix and bake'
 
     expect(page).to have_content 'no fillings'
+
+    click_button 'Retrieve Cookie'
+    visit root_path
+    expect(page).to have_content 'no filling'
   end
 
   scenario 'Trying to bake a cookie while oven is full' do
