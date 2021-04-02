@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140803174729) do
+ActiveRecord::Schema.define(version: 20210402204532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140803174729) do
     t.datetime "updated_at", null: false
     t.integer "storage_id"
     t.string "storage_type"
+    t.boolean "ready"
   end
 
   create_table "ovens", force: :cascade do |t|
