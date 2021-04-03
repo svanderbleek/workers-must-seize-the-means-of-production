@@ -1,4 +1,4 @@
-class BakeJob < ApplicationJob
+class BakeJob < ActiveJob::Base
   queue_as :default
 
   TIME = 4.seconds
