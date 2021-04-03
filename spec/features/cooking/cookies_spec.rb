@@ -1,4 +1,15 @@
 feature 'Cooking cookies' do
+  include ActiveJob::TestHelper
+
+  def perform_jobs!
+    enqueued_jobs.map do |payload|
+      args = payload[:args].map {|arg| GlobalID::Locator.locate(arg["_aj_globalid"]) }
+      payload[:job].new(*args)
+    end.each(&:perform_now)
+
+    enqueued_jobs.clear
+  end
+  
   scenario 'Cooking a single cookie' do
     user = create_and_signin
     oven = user.ovens.first
@@ -14,6 +25,11 @@ feature 'Cooking cookies' do
 
     expect(current_path).to eq(oven_path(oven))
     expect(page).to have_content 'Chocolate Chip'
+    expect(page).to_not have_content 'Your Cookie is Ready'
+    expect(enqueued_jobs.count).to eq(1)
+
+    perform_jobs!
+    refresh
     expect(page).to have_content 'Your Cookie is Ready'
 
     click_button 'Retrieve Cookie'
@@ -35,6 +51,8 @@ feature 'Cooking cookies' do
     click_button 'Mix and bake'
     expect(page).to have_content 'no fillings'
 
+    perform_jobs!
+    refresh
     click_button 'Retrieve Cookie'
     visit root_path
     expect(page).to have_content 'no filling'
@@ -69,6 +87,8 @@ feature 'Cooking cookies' do
       fill_in 'Fillings', with: 'Chocolate Chip'
       click_button 'Mix and bake'
 
+      perform_jobs!
+      refresh
       click_button 'Retrieve Cookie'
     end
 

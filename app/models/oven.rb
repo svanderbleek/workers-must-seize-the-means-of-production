@@ -3,4 +3,8 @@ class Oven < ActiveRecord::Base
   has_one :cookie, as: :storage
 
   validates :user, presence: true
+
+  def bake!
+    cookie.update(ready: true)
+  end
 end
