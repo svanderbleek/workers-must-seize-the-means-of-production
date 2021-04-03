@@ -119,13 +119,14 @@ feature 'Cooking cookies' do
     click_link_or_button 'Prepare Cookie'
     fill_in 'Batch Size', with: batch
     click_button 'Mix and bake'
-    expect(page).to contain(batch)
+    expect(page).to have_content(batch)
 
     perform_jobs!
-    expect(page).to contain(batch)
+    refresh
+    expect(page).to have_content(batch)
 
     click_button 'Retrieve Cookie'
     visit root_path
-    expect(page).to contain(batch)
+    expect(page).to have_content(batch)
   end
 end
