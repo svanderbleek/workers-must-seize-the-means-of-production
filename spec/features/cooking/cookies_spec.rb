@@ -126,7 +126,13 @@ feature 'Cooking cookies' do
     expect(page).to have_content(batch)
 
     click_button 'Retrieve Cookie'
+    click_link_or_button 'Prepare Cookie'
+    click_button 'Mix and bake'
+    perform_jobs!
+    refresh
+    click_button 'Retrieve Cookie'
+
     visit root_path
-    expect(page).to have_content(batch)
+    expect(page).to have_content(batch + 1)
   end
 end
