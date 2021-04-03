@@ -1,4 +1,7 @@
 .oven-channel{data: {oven: @oven.id}}
+  - if browser.device.mobile?
+    = link_to "Prepare Cookie", new_oven_cookies_path(@oven), class: 'button', style: 'margin-top: 1em;'
+
   %h3= @oven.name
 
   .cookie-info
@@ -13,4 +16,5 @@
 
   %br
 
-  = link_to "Prepare Cookie", new_oven_cookies_path(@oven), class: 'button'
+  - unless browser.device.mobile?
+    = link_to "Prepare Cookie", new_oven_cookies_path(@oven), class: 'button'
