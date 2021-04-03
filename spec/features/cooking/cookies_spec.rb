@@ -75,6 +75,18 @@ feature 'Cooking cookies' do
     expect(page).to_not have_button 'Mix and bake'
   end
 
+  scenario 'Automatic update of oven baking cookie', js: true do
+    user = create_and_signin
+    oven = user.ovens.first
+
+    visit oven_path(oven)
+    click_link_or_button 'Prepare Cookie'
+    click_button 'Mix and bake'
+
+    perform_jobs!
+    click_button 'Retrieve Cookie'
+  end
+
   scenario 'Baking multiple cookies' do
     user = create_and_signin
     oven = user.ovens.first
@@ -97,4 +109,5 @@ feature 'Cooking cookies' do
       expect(page).to have_content '3 Cookies'
     end
   end
+
 end
