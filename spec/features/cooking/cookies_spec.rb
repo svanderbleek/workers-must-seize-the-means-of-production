@@ -110,4 +110,22 @@ feature 'Cooking cookies' do
     end
   end
 
+  scenario 'Baking a batch of cookies' do
+    batch = 10
+    user = create_and_signin
+    oven = user.ovens.first
+
+    visit oven_path(oven)
+    click_link_or_button 'Prepare Cookie'
+    fill_in 'Batch Size', with: batch
+    click_button 'Mix and bake'
+    expect(page).to contain(batch)
+
+    perform_jobs!
+    expect(page).to contain(batch)
+
+    click_button 'Retrieve Cookie'
+    visit root_path
+    expect(page).to contain(batch)
+  end
 end
